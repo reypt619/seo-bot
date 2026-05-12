@@ -1,0 +1,22 @@
+{
+  "name": "seo-bot",
+  "version": "1.0.0",
+  "description": "SEO copywriting bot for Telegram (with Line extension points)",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.37.0",
+    "@notionhq/client": "^2.2.15",
+    "express": "^4.18.2",
+    "node-telegram-bot-api": "^0.64.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
