@@ -5,7 +5,7 @@ const config = require('./config');
 const { handleTelegramMessage } = require('./handlers/telegramHandler');
 
 // Validate required env vars
-const required = ['TELEGRAM_BOT_TOKEN', 'ANTHROPIC_API_KEY', 'NOTION_TOKEN', 'NOTION_DATABASE_ID', 'WEBHOOK_URL'];
+const required = ['TELEGRAM_BOT_TOKEN', 'ANTHROPIC_API_KEY'];
 for (const key of required) {
   if (!process.env[key]) {
     console.error(`Missing required environment variable: ${key}`);
