@@ -43,13 +43,20 @@ async function handleTelegramMessage(bot, msg) {
     try {
       const copy = await generateSEOCopy(updatedAnswers);
       await bot.sendMessage(userId, copy);
-      await saveToNotion({ answers: updatedAnswers, copy, platform: 'Telegram' });
-      await bot.sendMessage(
-        userId,
-        '✅ 資料已儲存，我們會盡快與您聯繫！\n\n如需重新產出文案，請輸入「重新開始」。'
-      );
+
+      if (process.env.NOTION_TOKEN && process.env.NOTION_DATABASE_ID) {
+        try {
+          await saveToNotion({ answers: updatedAnswers, copy, platform: 'Telegram' });
+          await bot.sendMessage(userId, '✅ 文案已產出並儲存至 Notion！\n\n如需重新產出，請輸入「重新開始」。');
+        } catch (notionErr) {
+          console.error('Notion save failed:', notionErr.message);
+          await bot.sendMessage(userId, '✅ 文案已產出！\n\n如需重新產出，請輸入「重新開始」。');
+        }
+      } else {
+        await bot.sendMessage(userId, '✅ 文案已產出！\n\n如需重新產出，請輸入「重新開始」。');
+      }
     } catch (err) {
-      console.error('Error generating copy or saving to Notion:', err);
+      console.error('Error generating copy:', err);
       await bot.sendMessage(
         userId,
         '⚠️ 文案產出時發生錯誤，請輸入「重新開始」再試一次，或聯繫我們的團隊。'
